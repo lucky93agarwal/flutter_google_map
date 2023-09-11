@@ -1,7 +1,8 @@
 # flutter_google_map
 
 # Screen
-![google_map](https://github.com/lucky93agarwal/flutter_google_map/assets/53622073/06dea885-ed50-4836-a294-0b6a0a6cbc2d = 250x250)
+<img src="https://github.com/lucky93agarwal/flutter_google_map/assets/53622073/06dea885-ed50-4836-a294-0b6a0a6cbc2d" width="200"/>
+
 
 
 
