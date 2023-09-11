@@ -98,6 +98,7 @@ class MapSampleState extends State<MapSample> {
           title: 'My Current Location',
         ),
          onTap: () {
+          // This is new commit.
 
          },
       );
