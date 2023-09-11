@@ -97,6 +97,9 @@ class MapSampleState extends State<MapSample> {
         infoWindow:const InfoWindow(
           title: 'My Current Location',
         ),
+         onTap: () {
+
+         },
       );
 
 
