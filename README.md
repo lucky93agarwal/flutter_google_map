@@ -105,12 +105,12 @@ Git branch
 
 Build DEV APK
 ```
-flutter build apk --release --build-name=nepali_callender_dev_1.0.1 --build-number=1
+flutter build apk --release --build-name=flutter_goole_map_1.0.1 --build-number=1
 ```
 
 Build PROD APK
 ```
-flutter build apk --release --build-name=nepali_callender_1.0.1 --build-number=1
+flutter build apk --release --build-name=flutter_goole_map_1.0.1 --build-number=1
 ```
 
 Increase the patch version with every build
