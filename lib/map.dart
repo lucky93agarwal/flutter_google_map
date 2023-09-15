@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,6 +23,8 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
   Completer<GoogleMapController>();
 
+  Set<Circle> circles ={};
+  List<LatLng> latLen = [];
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -46,7 +49,9 @@ class MapSampleState extends State<MapSample> {
     await Geolocator.requestPermission().then((value){
     }).onError((error, stackTrace) async {
       await Geolocator.requestPermission();
-      print("ERROR"+error.toString());
+      if (kDebugMode) {
+        print("ERROR"+error.toString());
+      }
     });
 
     return await Geolocator.getCurrentPosition();
@@ -71,9 +76,11 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        mapType: MapType.normal,
+        mapType: MapType.hybrid,
         initialCameraPosition: _kGooglePlex,
         markers: Set<Marker>.of(markers.values),
+        circles: circles,
+        polylines: _polyline,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
@@ -86,9 +93,12 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
+  final Set<Polyline> _polyline = {};
   Future<void> _goToTheLake() async {
     getUserCurrentLocation().then((value) async {
-      print(value.latitude.toString() +" "+value.longitude.toString());
+      if (kDebugMode) {
+        print(value.latitude.toString() +" "+value.longitude.toString());
+      }
 
       // marker added for current users location
        Marker marker =  Marker(
@@ -102,7 +112,31 @@ class MapSampleState extends State<MapSample> {
 
          },
       );
+      latLen.add(LatLng(value.latitude,value.longitude));
 
+      latLen.add(LatLng(value.latitude+0.05,value.longitude+0.05));
+
+      latLen.add(LatLng(value.latitude+0.10,value.longitude+0.10));
+
+      latLen.add(LatLng(value.latitude+0.15,value.longitude+0.15));
+      _polyline.add(
+          Polyline(
+            polylineId:const PolylineId('1'),
+            points: latLen,
+            color: Colors.blue,
+            width: 2
+          )
+      );
+      circles = {
+        Circle(
+          circleId: const CircleId('geo_fence_1'),
+          center: LatLng(value.latitude, value.longitude),
+          radius: 200,
+          strokeWidth: 2,
+          strokeColor: Colors.blue,
+          fillColor: Colors.blue.withOpacity(0.15),
+        ),
+      };
 
       // specified current users location
       CameraPosition cameraPosition = CameraPosition(
@@ -110,14 +144,18 @@ class MapSampleState extends State<MapSample> {
         zoom: 14,
       );
       final GoogleMapController controller = await _controller.future;
+
       controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
       setState(() {
         const MarkerId markerId = MarkerId("markerIdVal1");
         // adding a new marker to map
         markers[markerId] = marker;
       });
+
     });
     // final GoogleMapController controller = await _controller.future;
     // await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
+
+
 }
