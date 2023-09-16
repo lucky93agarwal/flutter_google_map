@@ -170,3 +170,6 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Visitors Count
+
+<img align="left" src = "https://profile-counter.glitch.me/flutter_google_map/count.svg" alt ="Loading">
